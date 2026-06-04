@@ -1,0 +1,10 @@
+# Système
+.DS_Store
+Thumbs.db
+
+# Dépendances éventuelles
+node_modules/
+
+# Fichiers temporaires
+*.log
+.netlify/
