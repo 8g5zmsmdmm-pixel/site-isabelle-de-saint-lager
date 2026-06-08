@@ -1,0 +1,22 @@
+{
+  "titre": "Reflets, marée basse",
+  "annee": 2024,
+  "technique": "Huile sur toile",
+  "largeur_cm": 30,
+  "hauteur_cm": 30,
+  "prix": 320,
+  "statut": "vendu",
+  "description": "Carré intime : les flaques laissées par la marée deviennent autant de miroirs du ciel turquoise.",
+  "ordre": 7,
+  "images": [
+    {
+      "image": "/images/oeuvre-7-1.jpg"
+    },
+    {
+      "image": "/images/oeuvre-7-2.jpg"
+    },
+    {
+      "image": "/images/oeuvre-7-3.jpg"
+    }
+  ]
+}

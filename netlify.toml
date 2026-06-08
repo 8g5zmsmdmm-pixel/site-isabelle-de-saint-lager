@@ -1,16 +1,12 @@
-# Configuration de déploiement Netlify
-# Le site est statique : pas d'étape de build.
+# Déploiement Netlify - site Astro + TinaCMS
 [build]
-  publish = "."
-  command = ""
+  command = "npm run build"
+  publish = "dist"
 
-# Sécurité / cache de base
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
+# Variables d'environnement à définir dans Netlify (Site configuration > Environment variables) :
+#   PUBLIC_TINA_CLIENT_ID  (fourni par Tina Cloud)
+#   TINA_TOKEN             (fourni par Tina Cloud)
+#   PUBLIC_TINA_BRANCH     = main
 
 [[headers]]
   for = "/images/*"

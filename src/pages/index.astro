@@ -1,0 +1,284 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry, getCollection } from 'astro:content';
+
+const site = (await getEntry('site', 'general'))!.data;
+const oeuvresEntries = await getCollection('oeuvres');
+const oeuvres = oeuvresEntries
+  .map((e) => e.data)
+  .sort((a, b) => (a.ordre ?? 99) - (b.ordre ?? 99));
+
+const euro = new Intl.NumberFormat('fr-FR', {
+  style: 'currency',
+  currency: 'EUR',
+  maximumFractionDigits: 0,
+});
+
+const aProposParas = site.a_propos_texte.split('\n').filter(Boolean);
+
+// Donnees serialisees pour la fiche oeuvre (modale) cote client.
+const oeuvresData = oeuvres.map((o) => ({
+  titre: o.titre,
+  annee: o.annee,
+  technique: o.technique,
+  largeur_cm: o.largeur_cm,
+  hauteur_cm: o.hauteur_cm,
+  prix: o.prix,
+  statut: o.statut,
+  description: o.description ?? '',
+  images: o.images.map((i) => i.image),
+}));
+
+const pageTitle = `${site.nom_artiste} — Marines de la Côte d'Émeraude`;
+---
+
+<Base title={pageTitle} description={site.hero_sous_titre}>
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#accueil" class="nav__brand">{site.nom_artiste}</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav__links" id="navLinks">
+        <a href="#galerie">Œuvres</a>
+        <a href="#atelier">L'atelier</a>
+        <a href="#demarche">La démarche</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="accueil">
+    <div class="hero__media"><img src={site.hero_image} alt={site.hero_titre} /></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">{site.accroche}</p>
+      <h1 class="hero__title">{site.hero_titre}</h1>
+      <p class="hero__subtitle">{site.hero_sous_titre}</p>
+      <a href="#galerie" class="btn btn--ghost">Découvrir les œuvres</a>
+    </div>
+    <a href="#galerie" class="hero__scroll" aria-label="Faire défiler">↓</a>
+  </section>
+
+  <!-- Galerie -->
+  <section class="section section--gallery" id="galerie">
+    <div class="section__head">
+      <h2 class="section__title">Œuvres</h2>
+      <p class="section__lead">
+        Chaque toile est une pièce unique, signée et accompagnée d'un certificat d'authenticité.
+      </p>
+    </div>
+    <div class="gallery" id="gallery">
+      {oeuvres.map((o, i) => {
+        const vendu = o.statut === 'vendu';
+        return (
+          <button class="card" type="button" data-index={i} aria-label={`Voir ${o.titre}`}>
+            <div class="card__media">
+              <span class={`card__tag ${vendu ? 'is-vendu' : ''}`}>{vendu ? 'Vendu' : 'Disponible'}</span>
+              <img src={o.images[0]?.image} alt={o.titre} loading="lazy" />
+            </div>
+            <div class="card__body">
+              <h3 class="card__titre">{o.titre}</h3>
+              <p class="card__sub">{o.largeur_cm} × {o.hauteur_cm} cm · {o.annee}</p>
+              <p class="card__prix">{vendu ? '—' : euro.format(o.prix)}</p>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- L'atelier -->
+  <section class="section split" id="atelier">
+    <div class="split__media"><img src={site.a_propos_image} alt={site.a_propos_titre} /></div>
+    <div class="split__text">
+      <h2 class="section__title">{site.a_propos_titre}</h2>
+      <div class="prose">
+        {aProposParas.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- La démarche -->
+  <section class="section section--statement" id="demarche">
+    <div class="statement">
+      <h2 class="section__title">{site.philosophie_titre}</h2>
+      <blockquote class="statement__quote">{site.philosophie_texte}</blockquote>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section section--contact" id="contact">
+    <div class="contact">
+      <div class="contact__intro">
+        <h2 class="section__title">Contact</h2>
+        <p>
+          Pour acquérir une œuvre, organiser une visite d'atelier ou toute autre demande,
+          écrivez-moi. Je réponds personnellement à chaque message.
+        </p>
+        <ul class="contact__meta">
+          <li><span>Atelier</span> <em>{site.ville_atelier}</em></li>
+          <li><span>Email</span> <a href={`mailto:${site.email_contact}`}>{site.email_contact}</a></li>
+        </ul>
+      </div>
+
+      <form
+        class="contact__form"
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        id="contactForm"
+      >
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="hidden"><label>Ne pas remplir : <input name="bot-field" /></label></p>
+        <input type="hidden" name="oeuvre" id="formOeuvre" value="" />
+        <div class="field">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" name="nom" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="field">
+          <label for="sujet">Sujet</label>
+          <input type="text" id="sujet" name="sujet" />
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid">Envoyer le message</button>
+        <p class="form-note" id="formNote" hidden></p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>{site.nom_artiste} — Marines de la Côte d'Émeraude</p>
+    <p class="footer__small">
+      Toutes les œuvres sont protégées par le droit d'auteur. Reproduction interdite.
+    </p>
+  </footer>
+
+  <!-- Fiche œuvre (modale) -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="document">
+      <button class="modal__close" data-close aria-label="Fermer">×</button>
+      <div class="modal__grid">
+        <div class="modal__gallery">
+          <div class="modal__main"><img id="modalMain" alt="" /></div>
+          <div class="modal__thumbs" id="modalThumbs"></div>
+        </div>
+        <div class="modal__info">
+          <h3 id="modalTitre" class="modal__titre"></h3>
+          <p id="modalAnnee" class="modal__annee"></p>
+          <dl class="modal__specs">
+            <div><dt>Technique</dt><dd id="modalTechnique"></dd></div>
+            <div><dt>Dimensions</dt><dd id="modalDimensions"></dd></div>
+            <div><dt>Disponibilité</dt><dd id="modalStatut"></dd></div>
+            <div><dt>Prix</dt><dd id="modalPrix"></dd></div>
+          </dl>
+          <p id="modalDescription" class="modal__desc"></p>
+          <a href="#contact" class="btn btn--solid" id="modalContact" data-close>Demander cette œuvre</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" id="oeuvres-data" set:html={JSON.stringify(oeuvresData)}></script>
+
+  <script>
+    const EURO = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    const OEUVRES = JSON.parse(document.getElementById('oeuvres-data')?.textContent || '[]');
+    let currentImgs = [];
+
+    // Navigation
+    const nav = document.getElementById('nav');
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    const onScroll = () => nav?.classList.toggle('is-scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    toggle?.addEventListener('click', () => {
+      const open = links?.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(!!open));
+    });
+    links?.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => {
+        links.classList.remove('is-open');
+        toggle?.setAttribute('aria-expanded', 'false');
+      })
+    );
+
+    // Modale
+    const modal = document.getElementById('modal');
+    function setMainImage(i) {
+      const main = document.getElementById('modalMain');
+      if (main) main.src = currentImgs[i];
+      document.querySelectorAll('#modalThumbs img').forEach((t, k) => t.classList.toggle('is-active', k === i));
+    }
+    function openModal(index) {
+      const o = OEUVRES[index];
+      if (!o) return;
+      const vendu = o.statut === 'vendu';
+      document.getElementById('modalTitre').textContent = o.titre;
+      document.getElementById('modalAnnee').textContent = o.annee;
+      document.getElementById('modalTechnique').textContent = o.technique;
+      document.getElementById('modalDimensions').textContent = `${o.largeur_cm} × ${o.hauteur_cm} cm`;
+      const statut = document.getElementById('modalStatut');
+      statut.textContent = vendu ? 'Vendu' : 'Disponible';
+      statut.className = vendu ? 'is-vendu' : 'is-disponible';
+      document.getElementById('modalPrix').textContent = vendu ? '—' : EURO.format(o.prix);
+      document.getElementById('modalDescription').textContent = o.description || '';
+      document.getElementById('formOeuvre').value = o.titre;
+      const cta = document.getElementById('modalContact');
+      cta.addEventListener('click', () => {
+        document.getElementById('sujet').value = `Demande — « ${o.titre} »`;
+      }, { once: true });
+      currentImgs = o.images;
+      setMainImage(0);
+      const thumbs = document.getElementById('modalThumbs');
+      thumbs.innerHTML = '';
+      o.images.forEach((src, i) => {
+        const t = document.createElement('img');
+        t.src = src;
+        t.alt = `${o.titre} — vue ${i + 1}`;
+        t.className = i === 0 ? 'is-active' : '';
+        t.addEventListener('click', () => setMainImage(i));
+        thumbs.appendChild(t);
+      });
+      modal?.classList.add('is-open');
+      modal?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal?.classList.remove('is-open');
+      modal?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.card').forEach((c) =>
+      c.addEventListener('click', () => openModal(Number(c.getAttribute('data-index'))))
+    );
+    modal?.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeModal));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    // Formulaire (apercu local)
+    const form = document.getElementById('contactForm');
+    form?.addEventListener('submit', (e) => {
+      const isLive = location.hostname.endsWith('netlify.app');
+      if (!isLive) {
+        e.preventDefault();
+        const note = document.getElementById('formNote');
+        if (note) {
+          note.hidden = false;
+          note.textContent = 'Aperçu local : le formulaire sera fonctionnel une fois le site en ligne.';
+        }
+      }
+    });
+  </script>
+</Base>

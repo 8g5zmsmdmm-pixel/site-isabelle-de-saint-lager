@@ -1,0 +1,22 @@
+{
+  "titre": "Tentes de bain",
+  "annee": 2024,
+  "technique": "Acrylique sur toile",
+  "largeur_cm": 33,
+  "hauteur_cm": 24,
+  "prix": 300,
+  "statut": "disponible",
+  "description": "Petit format estival : les tentes rayées de la plage, souvenir des bains de mer de la Belle Époque dinardaise.",
+  "ordre": 5,
+  "images": [
+    {
+      "image": "/images/oeuvre-5-1.jpg"
+    },
+    {
+      "image": "/images/oeuvre-5-2.jpg"
+    },
+    {
+      "image": "/images/oeuvre-5-3.jpg"
+    }
+  ]
+}

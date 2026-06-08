@@ -1,0 +1,22 @@
+{
+  "titre": "Saint-Énogat, matin",
+  "annee": 2025,
+  "technique": "Huile sur toile de lin",
+  "largeur_cm": 73,
+  "hauteur_cm": 60,
+  "prix": 680,
+  "statut": "disponible",
+  "description": "Grand format. La crique de Saint-Énogat au petit matin, brume légère et rochers émergeant de la marée descendante.",
+  "ordre": 6,
+  "images": [
+    {
+      "image": "/images/oeuvre-6-1.jpg"
+    },
+    {
+      "image": "/images/oeuvre-6-2.jpg"
+    },
+    {
+      "image": "/images/oeuvre-6-3.jpg"
+    }
+  ]
+}

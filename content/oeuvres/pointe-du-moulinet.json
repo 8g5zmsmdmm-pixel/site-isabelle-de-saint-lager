@@ -1,0 +1,22 @@
+{
+  "titre": "Pointe du Moulinet",
+  "annee": 2024,
+  "technique": "Huile et couteau sur toile",
+  "largeur_cm": 40,
+  "hauteur_cm": 40,
+  "prix": 420,
+  "statut": "disponible",
+  "description": "Les rochers de granit de la Pointe du Moulinet, battus par une mer d'un vert profond. Matière travaillée au couteau.",
+  "ordre": 3,
+  "images": [
+    {
+      "image": "/images/oeuvre-3-1.jpg"
+    },
+    {
+      "image": "/images/oeuvre-3-2.jpg"
+    },
+    {
+      "image": "/images/oeuvre-3-3.jpg"
+    }
+  ]
+}

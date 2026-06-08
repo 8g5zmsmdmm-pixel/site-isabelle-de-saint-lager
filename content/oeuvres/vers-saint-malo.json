@@ -1,0 +1,22 @@
+{
+  "titre": "Vers Saint-Malo",
+  "annee": 2025,
+  "technique": "Huile sur toile de lin",
+  "largeur_cm": 81,
+  "hauteur_cm": 60,
+  "prix": 700,
+  "statut": "disponible",
+  "description": "Grand format au soir. Depuis Dinard, le regard porte vers les remparts de Saint-Malo dans une lumière dorée de fin de journée.",
+  "ordre": 8,
+  "images": [
+    {
+      "image": "/images/oeuvre-8-1.jpg"
+    },
+    {
+      "image": "/images/oeuvre-8-2.jpg"
+    },
+    {
+      "image": "/images/oeuvre-8-3.jpg"
+    }
+  ]
+}

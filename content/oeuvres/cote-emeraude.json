@@ -1,0 +1,22 @@
+{
+  "titre": "Côte d'Émeraude",
+  "annee": 2025,
+  "technique": "Huile sur toile de lin",
+  "largeur_cm": 61,
+  "hauteur_cm": 38,
+  "prix": 490,
+  "statut": "disponible",
+  "description": "Format marine. La couleur qui a donné son nom à la côte : ce vert lumineux et changeant entre Dinard et Saint-Lunaire.",
+  "ordre": 4,
+  "images": [
+    {
+      "image": "/images/oeuvre-4-1.jpg"
+    },
+    {
+      "image": "/images/oeuvre-4-2.jpg"
+    },
+    {
+      "image": "/images/oeuvre-4-3.jpg"
+    }
+  ]
+}

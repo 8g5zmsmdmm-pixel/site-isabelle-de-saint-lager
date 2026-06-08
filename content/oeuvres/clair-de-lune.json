@@ -1,0 +1,22 @@
+{
+  "titre": "Clair de lune",
+  "annee": 2023,
+  "technique": "Huile sur toile",
+  "largeur_cm": 46,
+  "hauteur_cm": 33,
+  "prix": 380,
+  "statut": "vendu",
+  "description": "Nocturne sur la Promenade du Clair de Lune : la lune trace son sillage argenté sur l'eau sombre de la rade.",
+  "ordre": 2,
+  "images": [
+    {
+      "image": "/images/oeuvre-2-1.jpg"
+    },
+    {
+      "image": "/images/oeuvre-2-2.jpg"
+    },
+    {
+      "image": "/images/oeuvre-2-3.jpg"
+    }
+  ]
+}
