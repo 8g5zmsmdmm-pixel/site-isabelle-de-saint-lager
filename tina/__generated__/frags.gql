@@ -1,0 +1,34 @@
+fragment OeuvresParts on Oeuvres {
+  __typename
+  titre
+  annee
+  technique
+  largeur_cm
+  hauteur_cm
+  prix
+  statut
+  description
+  ordre
+  images {
+    __typename
+    image
+  }
+}
+
+fragment SiteParts on Site {
+  __typename
+  nom_artiste
+  accroche
+  hero_titre
+  hero_sous_titre
+  hero_image
+  a_propos_titre
+  a_propos_texte
+  a_propos_image
+  philosophie_titre
+  philosophie_texte
+  email_contact
+  telephone
+  ville_atelier
+  instagram
+}
